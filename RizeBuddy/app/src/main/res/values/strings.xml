@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Rize Buddy</string>
+    <string name="a11y_desc">Optional. Lets Rize Buddy read only the website address shown in your browser and the title of the YouTube video you are watching, so study time and distractions can be told apart. It reads nothing else, only from browsers and YouTube, and nothing leaves your phone.</string>
+</resources>

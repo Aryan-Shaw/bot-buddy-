@@ -1,0 +1,27 @@
+/* Rize Buddy for Android: phone layout. Loaded last. */
+html.android,html.android body{-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
+html.android{--safe-t:env(safe-area-inset-top,0px);--safe-b:env(safe-area-inset-bottom,0px)}
+html.android button,html.android .ib,html.android .chip{touch-action:manipulation}
+html.android input,html.android textarea,html.android select{font-size:16px}          /* no zoom-in when a field gets focus */
+body:has(#sheet.on) #rzAndBanner,body:has(#modal.on) #rzAndBanner{display:none}
+#rzAndBanner{position:fixed;left:10px;right:10px;bottom:calc(var(--safe-b,0px) + 76px);z-index:99;display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:14px;background:#1f2937;color:#fff;font:600 13px/1.3 system-ui,sans-serif;box-shadow:0 8px 24px #0006}
+#rzAndBanner span{flex:1}#rzAndBanner button{border:0;border-radius:10px;padding:8px 14px;background:#F2784B;color:#fff;font:700 13px system-ui,sans-serif}
+#rzAndBuddy{position:fixed;right:12px;bottom:calc(var(--safe-b,0px) + 14px);z-index:60;border:0;border-radius:99px;padding:11px 16px;background:#F2784B;color:#fff;font:700 14px system-ui,sans-serif;box-shadow:0 6px 18px #0005}
+
+/* dashboard (index.html): sidebar becomes a scrolling tab strip, the right summary column drops below the page */
+@media (max-width:900px){
+  html.android body.dash{height:auto;overflow-x:hidden}
+  html.android .app{display:block!important;height:auto!important;min-height:100vh}
+  html.android nav{flex-direction:row!important;overflow-x:auto;position:sticky;top:0;z-index:40;padding:calc(var(--safe-t) + 6px) 8px 6px!important;gap:4px!important;border-right:0!important;border-bottom:1px solid var(--ln)}
+  html.android nav button{flex:none;white-space:nowrap;padding:9px 12px}
+  html.android nav .logo,html.android nav #now,html.android nav .kbd,html.android nav .grp{display:none!important}
+  html.android nav #navl{display:flex;flex-direction:row;gap:4px;align-items:center}
+  html.android main{overflow:visible!important;padding:12px 12px 90px!important}
+  html.android aside{border-left:0!important;border-top:1px solid var(--ln);padding:12px 12px 90px}
+  html.android table{display:block;overflow-x:auto;max-width:100%}
+  html.android .top{flex-wrap:wrap}
+  html.android svg,html.android canvas,html.android img{max-width:100%}
+}
+/* Buddy (companion.html): keep clear of the status / gesture bars */
+html.android body.cmp header{padding-top:calc(var(--safe-t) + 10px)}
+html.android body.cmp footer{padding-bottom:calc(var(--safe-b) + 6px)}

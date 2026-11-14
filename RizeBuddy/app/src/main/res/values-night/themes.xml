@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Rize" parent="android:Theme.Material.NoActionBar">
+        <item name="android:statusBarColor">@color/rize_bar</item>
+        <item name="android:navigationBarColor">@color/rize_bar</item>
+        <item name="android:windowBackground">@color/rize_bg</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+    </style>
+</resources>

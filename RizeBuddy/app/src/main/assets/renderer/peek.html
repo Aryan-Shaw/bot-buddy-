@@ -1,0 +1,35 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><script src="theme-init.js"></script><title>Rize Peek</title><link rel="icon" type="image/svg+xml" href="icon-r.svg">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'">
+<style>
+*{box-sizing:border-box}html,body{margin:0;overflow:hidden}
+body{font:13px/1.35 "Segoe UI Variable","Segoe UI",system-ui,sans-serif;color:#4A3428;background:linear-gradient(160deg,#FFF6EC,#FFE6D2);padding:10px 12px 12px;cursor:default;animation:in .3s both}
+@keyframes in{from{opacity:0;transform:translateY(12px)}}
+.big{font-size:21px;font-weight:800;letter-spacing:-.02em;display:flex;align-items:baseline;gap:6px}.big small{font-size:12px;font-weight:600;color:#9A7B67}
+.bar{height:6px;border-radius:9px;background:#F1D9C4;overflow:hidden;margin:5px 0}.bar i{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,#FFC24B,#F2784B)}
+.sub{display:flex;gap:5px;flex-wrap:wrap;margin:6px 0}.pill{background:#fff;border:1px solid #F1D9C4;border-radius:99px;padding:2px 9px;font-size:11.5px;font-weight:600;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pill.fire{color:#F2784B}
+.msg{background:#fff;border-radius:11px;padding:6px 10px;font-size:12px;box-shadow:0 2px 6px #c8763b1a;display:none;margin-bottom:6px}
+.rows{display:flex;flex-direction:column;gap:6px;border-top:1px solid #F1D9C4;padding-top:7px}
+.r .h{display:flex;justify-content:space-between;align-items:baseline;gap:6px}.r b{font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.r .cd{font-size:11px;color:#9A7B67;white-space:nowrap}.r .cd.late{color:#E5484D;font-weight:700}.r .p{font-weight:700;font-size:12px;min-width:30px;text-align:right}
+.r .bar{height:4px;margin:3px 0 0}.r .bar i{background:#FFC24B}.k{font-size:9.5px;color:#9A7B67;text-transform:uppercase;letter-spacing:.06em}
+.r input[type=range]{width:100%;height:14px;margin:0;accent-color:#F2784B;display:none}.pin .r input[type=range]{display:block}.pin .r .bar{display:none}
+.edit{display:none;margin-top:8px;gap:5px;flex-direction:column}.pin .edit{display:flex}
+.edit select,.edit input[type=text]{width:100%;border:1px solid #F1D9C4;border-radius:9px;padding:5px 8px;background:#fff;font:inherit;outline:none}.edit select:focus,.edit input:focus{border-color:#F2784B}
+.edit .row{display:flex;gap:5px}.edit button{border:0;background:#F2784B;color:#fff;border-radius:9px;padding:5px 11px;font:inherit;font-weight:700;cursor:pointer}.edit .row select{width:auto}
+.hint{font-size:10.5px;color:#9A7B67;text-align:center;margin-top:6px}.pin .hint{display:none}
+.life{height:3px;background:#F2784B;position:fixed;left:0;bottom:0;width:100%;transform-origin:left}
+.tm{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #F1D9C4;border-radius:11px;padding:5px 9px;margin:4px 0 6px}.tm .t{font-size:18px;font-weight:800;font-variant-numeric:tabular-nums}.tm.run .t{color:#F2784B}.tm.brk .t{color:#2FA36B}.tm small{flex:1;color:#9A7B67;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tm button{border:0;background:#F2784B;color:#fff;border-radius:8px;width:28px;height:26px;cursor:pointer}
+.empty{color:#9A7B67;font-size:12px;text-align:center;padding:4px 0}
+</style><link rel="stylesheet" href="theme.css"></head><body id="b" class="pk">
+<div class="big" id="work">–</div><div class="bar"><i id="wb" style="width:0"></i></div>
+<div class="sub"><span class="pill" id="goal">🎯 no goal set</span><span class="pill fire" id="sk">🔥 0m</span></div>
+<div class="tm" id="tm"><span class="t" id="tmt">--:--</span><small id="tml"></small><button id="tmb" title="Start / pause the focus timer">▶</button></div>
+<div class="msg" id="msg"></div>
+<div class="rows" id="rows"></div>
+<div class="edit" id="edit">
+  <select id="gsel" title="Current goal"></select>
+  <input type="text" id="gnew" placeholder="＋ new task, press Enter">
+  <div class="row"><select id="gsc"><option value="day">Today</option><option value="week">This week</option></select><input type="datetime-local" id="gdl" style="flex:1;border:1px solid #F1D9C4;border-radius:9px;padding:4px 6px;background:#fff;font:inherit"></div>
+</div>
+<div class="hint">click to edit · closes in a few seconds</div>
+<div class="life" id="life"></div>
+<script src="peek.js"></script></body></html>

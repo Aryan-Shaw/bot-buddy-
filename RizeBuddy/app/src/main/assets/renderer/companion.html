@@ -1,0 +1,135 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><script src="theme-init.js"></script><script src="android.js"></script>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self' blob:">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Buddy</title>
+<link rel="icon" type="image/svg+xml" href="icon-bot.svg">
+<style>
+:root{--bg1:#FFF4E6;--bg2:#FFE2CC;--card:#FFFDF9;--tx:#4A3428;--mt:#9A7B67;--ac:#F2784B;--ac2:#FF9E6B;--ln:#F3DCC8;--g:#2FA36B;--sun:#FFC24B}
+*{box-sizing:border-box}html,body{height:100%;margin:0}
+body{font:15px/1.45 "Segoe UI Variable","Segoe UI",system-ui,sans-serif;color:var(--tx);background:linear-gradient(160deg,var(--bg1),var(--bg2));display:flex;overflow:hidden}
+#col{flex:1;min-width:0;height:100%;display:flex;flex-direction:column;overflow:hidden}
+button,input,textarea,select{font:inherit;color:inherit}button{cursor:pointer}
+header{display:flex;align-items:center;gap:10px;padding:12px 14px;background:#fffaf3cc;border-bottom:1px solid var(--ln);backdrop-filter:blur(10px)}
+.av{width:44px;height:44px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FFE08A,var(--sun) 60%,#FF9E4B);display:grid;place-items:center;box-shadow:0 4px 14px #f2784b55;position:relative;flex:none}
+.av i{display:block;width:26px;height:26px;position:relative}
+.av i::before,.av i::after{content:"";position:absolute;top:6px;width:5px;height:7px;background:#4A3428;border-radius:50%;animation:blink 4.5s infinite}.av i::before{left:5px}.av i::after{right:5px}
+.av b{position:absolute;left:7px;right:7px;bottom:3px;height:8px;border-bottom:3px solid #4A3428;border-radius:0 0 12px 12px}
+.av.talk b{animation:talk .35s infinite alternate}
+@keyframes blink{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}@keyframes talk{to{height:12px}}
+.dot{position:absolute;right:0;bottom:1px;width:11px;height:11px;border-radius:50%;background:var(--g);border:2px solid #fff}
+.who{flex:1;min-width:0}.who b{display:block;font-size:16px}.who small{color:var(--mt)}
+.ib{background:#fff;border:1px solid var(--ln);border-radius:12px;width:36px;height:36px;font-size:16px;transition:.15s}.ib:hover{background:#FFF0E2;transform:translateY(-1px)}.ib.off{opacity:.45}
+.goal{display:flex;gap:8px;align-items:center;padding:4px 0}.goal.done span{text-decoration:line-through;color:var(--mt)}.goal span{flex:1}
+.goal input{accent-color:var(--ac);width:17px;height:17px}.goal button{background:none;border:0;color:var(--mt)}
+.lm{display:flex;justify-content:space-between;gap:8px;padding:3px 0}.lm em{font-style:normal;color:var(--ac);font-weight:700;white-space:nowrap}
+#msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:9px;scroll-behavior:smooth}
+.m{max-width:84%;padding:9px 13px;border-radius:18px;animation:in .25s both;word-wrap:break-word;box-shadow:0 2px 8px #c8763b14}
+.m.b{align-self:flex-start;background:var(--card);border-bottom-left-radius:5px}.m.u{align-self:flex-end;background:linear-gradient(135deg,var(--ac2),var(--ac));color:#fff;border-bottom-right-radius:5px}
+.m.care{background:#FFF1F0;border:1px solid #F5B5AE}
+.typing{display:flex;gap:4px;padding:12px 14px}.typing i{width:7px;height:7px;border-radius:50%;background:var(--mt);animation:bob 1s infinite}.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes bob{50%{transform:translateY(-5px);opacity:.5}}@keyframes in{from{opacity:0;transform:translateY(8px)}}
+.chips{display:flex;gap:6px;flex-wrap:wrap;padding:0 14px 8px}.chip{background:#fff;border:1px solid var(--ln);border-radius:99px;padding:6px 12px;font-size:13px;transition:.15s}.chip:hover{background:var(--ac);color:#fff;border-color:var(--ac)}
+footer{padding:8px 12px 6px;background:#fffaf3cc;border-top:1px solid var(--ln)}
+.comp{display:flex;gap:8px;align-items:flex-end}
+textarea{flex:1;resize:none;border:1px solid var(--ln);background:#fff;border-radius:16px;padding:9px 13px;max-height:100px;outline:none}textarea:focus,input:focus,select:focus{border-color:var(--ac);box-shadow:0 0 0 3px #f2784b22}
+.send,.mic{width:40px;height:40px;border-radius:50%;border:0;font-size:17px;flex:none}.send{background:linear-gradient(135deg,var(--ac2),var(--ac));color:#fff}.mic{background:#fff;border:1px solid var(--ln)}
+.mic.rec{background:#E5484D;color:#fff;animation:pulse 1s infinite}@keyframes pulse{50%{box-shadow:0 0 0 8px #e5484d33}}
+.note{text-align:center;font-size:11px;color:var(--mt);margin-top:5px}
+#sheet{position:fixed;inset:0;background:#4a342855;display:none;align-items:flex-end;backdrop-filter:blur(3px);z-index:10}#sheet.on{display:flex}
+.card{width:100%;max-height:92%;overflow:auto;background:var(--card);border-radius:24px 24px 0 0;padding:18px 18px 16px;animation:up .3s cubic-bezier(.2,.9,.3,1.1)}@keyframes up{from{transform:translateY(40px);opacity:0}}
+.card h3{margin:0 0 4px;font-size:18px}.card p{margin:0 0 12px;color:var(--mt)}
+.moods{display:flex;justify-content:space-between;gap:6px;margin:6px 0 12px}.moods button{flex:1;background:#fff;border:2px solid var(--ln);border-radius:16px;padding:8px 0;font-size:26px;transition:.15s}.moods button small{display:block;font-size:11px;color:var(--mt)}.moods button.on,.moods button:hover{border-color:var(--ac);transform:translateY(-2px);background:#FFF0E2}
+.row{display:flex;gap:6px;margin:6px 0}.row input,.card input,.card select{flex:1;min-width:0;border:1px solid var(--ln);border-radius:12px;padding:9px 12px;background:#fff;outline:none}
+.pill{display:inline-flex;gap:6px;align-items:center;background:#FFF0E2;border-radius:99px;padding:4px 10px;margin:3px 4px 3px 0}.pill b{cursor:pointer;color:var(--mt)}
+.btn{background:linear-gradient(135deg,var(--ac2),var(--ac));border:0;color:#fff;border-radius:14px;padding:10px 18px;font-weight:700}.btn.alt{background:#fff;color:var(--tx);border:1px solid var(--ln)}.btn:disabled{opacity:.5}
+.acts{display:flex;justify-content:space-between;gap:8px;margin-top:12px}
+.kinds{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}.kinds .chip.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+label{display:block;font-size:12px;color:var(--mt);margin:9px 0 3px}.sw{display:flex;gap:8px;align-items:center;margin:8px 0}.sw input{flex:none;width:18px;accent-color:var(--ac)}
+textarea.f{width:100%;border-radius:12px}
+.dots{display:flex;gap:5px;justify-content:center;margin-bottom:10px}.dots i{width:22px;height:5px;border-radius:9px;background:var(--ln)}.dots i.on{background:var(--ac)}
+#stage{position:relative;height:212px;flex:none;background:radial-gradient(ellipse at 50% 90%,#ffe2c9,transparent 72%)}#rb{width:100%;height:100%;display:block;cursor:pointer}
+.gchip{position:absolute;bottom:8px;background:#fff;border:1px solid var(--ln);border-radius:99px;padding:5px 11px;font-size:12px;font-weight:600;box-shadow:0 2px 8px #c8763b1f;max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#gChip{left:12px}#gChip:hover{border-color:var(--ac)}
+/* today's numbers: three chips, biggest on top (re-ordered live) */
+#stats{position:absolute;right:10px;top:10px;width:122px;height:104px;pointer-events:none}
+.sc{--c:var(--mt);position:absolute;left:0;right:0;top:0;height:31px;display:flex;align-items:center;gap:7px;padding:0 9px 0 8px;border-radius:10px;background:var(--card);border:1px solid var(--ln);box-shadow:0 1px 6px #00000012;transition:transform .65s cubic-bezier(.2,.9,.3,1.15),border-color .3s,box-shadow .3s}
+.sc>i{font-style:normal;font-size:14px;flex:none;width:16px;text-align:center}.sc>div{display:flex;flex-direction:column;gap:2px;min-width:0}
+.sc b{font:700 13px/1 "Segoe UI Variable Display","Segoe UI",system-ui,sans-serif;font-variant-numeric:tabular-nums;letter-spacing:-.015em;color:var(--c);white-space:nowrap}
+.sc small{font:600 8.5px/1 "Segoe UI Variable Text","Segoe UI",system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--mt)}
+.sc.k-streak{--c:#F59E0B}.sc.k-prod{--c:var(--g)}.sc.k-wasted{--c:var(--r,#DC2626)}
+.sc.lead{border-color:var(--c);box-shadow:0 0 0 3px color-mix(in srgb,var(--c) 16%,transparent)}
+/* side panel: only the ☰ button lives in the header; the page list slides over the chat when opened (takes no space) */
+#rscrim{position:fixed;inset:0;z-index:7;display:none;background:#0000}#rscrim.on{display:block}
+#rail{position:fixed;left:0;top:0;bottom:0;width:210px;z-index:8;display:flex;flex-direction:column;padding:12px 8px;background:color-mix(in srgb,var(--card) 97%,transparent);border-right:1px solid var(--ln);transform:translateX(-104%);transition:transform .22s cubic-bezier(.2,.8,.2,1),box-shadow .22s;backdrop-filter:blur(12px);visibility:hidden}
+#rail.open{transform:none;box-shadow:12px 0 34px #0003;visibility:visible}
+.rt{font:700 10px/1.3 "Segoe UI Variable Text","Segoe UI",system-ui,sans-serif;letter-spacing:.11em;text-transform:uppercase;color:var(--mt);padding:2px 8px 10px}
+#rlist{flex:1;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;gap:1px;scrollbar-width:thin}
+.ri{display:flex;align-items:center;gap:9px;width:100%;height:32px;flex:none;padding:0 8px;border:0;border-radius:8px;background:none;text-align:left;white-space:nowrap;font:600 13px/1 "Segoe UI Variable Text","Segoe UI",system-ui,sans-serif;color:var(--tx)}
+.ri:hover{background:color-mix(in srgb,var(--ac) 12%,transparent)}
+.ri i{font-style:normal;flex:none;width:20px;text-align:center;font-size:14px;color:var(--mt)}.ri.top i{color:var(--ac)}.ri.top:first-child{background:color-mix(in srgb,var(--ac) 10%,transparent)}
+.ri span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis}.ri em{font:500 11px/1 "Segoe UI Variable Text","Segoe UI",system-ui,sans-serif;font-style:normal;font-variant-numeric:tabular-nums;color:var(--mt)}
+/* streak protection timer */
+#guard{position:absolute;left:10px;top:10px;min-width:150px;max-width:56%;padding:7px 11px 8px;border-radius:12px;background:var(--card);border:1px solid #F59E0B;box-shadow:0 2px 10px #f59e0b33;pointer-events:none}
+#guard[hidden]{display:none}
+#guard b{display:block;font:700 12px/1.2 "Segoe UI Variable Text","Segoe UI",system-ui,sans-serif;color:var(--tx)}#guard b em{font-style:normal;color:#F59E0B;font-variant-numeric:tabular-nums}
+#guard small{display:block;font-size:10.5px;color:var(--mt);margin:2px 0 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#guard .gb{height:5px;border-radius:9px;background:var(--ln);overflow:hidden}#guard .gb i{display:block;height:100%;width:100%;background:#F59E0B;transition:width 1s linear,background .3s}
+#guard.warn{border-color:#EF4444;box-shadow:0 0 0 3px #ef444422;animation:gp 1s infinite}#guard.warn b em{color:#EF4444}#guard.warn .gb i{background:#EF4444}#guard.safe{border-color:var(--g)}#guard.safe b em{color:var(--g)}#guard.safe .gb i{background:var(--g)}
+@keyframes gp{50%{box-shadow:0 0 0 6px #ef444433}}
+/* welcome-back log + review sheet */
+.m.rep{max-width:96%;width:100%}.rep .rh2{font-weight:700;margin-bottom:6px}.rr{display:flex;gap:8px;align-items:baseline;padding:4px 0;border-top:1px solid var(--ln);font-size:13px}
+.rr .tm{flex:none;width:108px;color:var(--mt);font-variant-numeric:tabular-nums;font-size:12px}.rr .nm{flex:1;min-width:0;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rr em{flex:none;font-style:normal;color:var(--ac);font-size:12px;max-width:42%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rr.dim{color:var(--mt);font-size:12px}
+.lsel{max-width:150px;font-size:11px!important;padding:2px 6px!important;border-radius:8px!important;color:var(--mt)}
+.src{display:inline-block;width:6px;height:6px;border-radius:50%;margin-left:7px;vertical-align:middle;opacity:.8}.src.sys{background:#22C55E}.src.ai{background:#3B82F6}
+.pl{border:1px solid var(--ln);border-radius:14px;padding:10px 12px;margin:8px 0;background:var(--card)}#sheet h4.ph{margin:14px 0 2px;font-size:12px;color:var(--mt);text-transform:uppercase;letter-spacing:.08em}
+.bar2{height:6px;border-radius:9px;background:var(--ln);overflow:hidden;margin:5px 0}.bar2 i{display:block;height:100%;background:var(--ac)}.chip:disabled{opacity:.4;cursor:default}.chip:disabled:hover{background:#fff;color:inherit;border-color:var(--ln)}
+.goal input.prog{width:100%;flex-basis:100%;height:5px;margin:0 0 6px;padding:0}.cd{font-size:11px;color:var(--mt);white-space:nowrap}.cd.late{color:#E5484D;font-weight:700}
+/* reminders + ranking */
+.rk{display:inline-flex;align-items:center;gap:2px;flex:none}.rk em{font-style:normal;font-weight:800;font-size:11px;color:var(--ac);min-width:22px}.rk button{background:none;border:0;padding:0 2px;font-size:11px;color:var(--mt)}.rk button:hover{color:var(--ac)}.rk button:disabled{opacity:.25}
+.bell{background:none;border:0;font-size:13px;padding:0 2px}.bell.off{opacity:.35}
+.mids{display:flex;flex-wrap:wrap;gap:4px;margin:4px 0}
+/* tease dropdown (top-left) + browser button (under the stat chips) */
+#tzBtn{position:absolute;left:10px;top:10px;z-index:4;height:28px;display:flex;align-items:center;gap:5px;padding:0 10px;border-radius:99px;background:var(--card);border:1px solid var(--ln);color:var(--tx);font:600 12px/1 "Segoe UI Variable Text","Segoe UI",system-ui,sans-serif;box-shadow:0 1px 6px #00000012}
+#tzBtn b{font-size:10px;color:var(--mt);transition:transform .15s}#tzBtn[aria-expanded=true]{border-color:var(--ac)}#tzBtn[aria-expanded=true] b{transform:rotate(180deg)}#tzBtn:hover{border-color:var(--ac)}
+#bBrowser{position:absolute;right:10px;top:118px;width:122px;height:28px;z-index:4;display:flex;align-items:center;justify-content:center;gap:6px;border-radius:10px;background:var(--card);border:1px solid var(--ln);color:var(--tx);font:700 12px/1 "Segoe UI Variable Text","Segoe UI",system-ui,sans-serif;box-shadow:0 1px 6px #00000012}
+#bBrowser:hover{border-color:var(--ac);color:var(--ac)}
+#tzMenu{position:fixed;z-index:60;min-width:210px;max-height:60vh;overflow-y:auto;padding:5px;border-radius:12px;background:var(--card);border:1px solid var(--ln);box-shadow:0 10px 30px #0003}
+#tzMenu[hidden]{display:none}
+#tzMenu button{display:block;width:100%;text-align:left;padding:8px 10px;border:0;border-radius:8px;background:none;color:var(--tx);font:600 13px/1.2 "Segoe UI Variable Text","Segoe UI",system-ui,sans-serif}
+#tzMenu button:hover{background:color-mix(in srgb,var(--ac) 14%,transparent)}
+#guard{top:46px}
+@media (max-height:640px){#bBrowser{top:100px}}
+</style><link rel="stylesheet" href="theme.css"><link rel="stylesheet" href="layout.css"><link rel="stylesheet" href="android.css"></head><body class="cmp">
+<div id="rscrim"></div><nav id="rail" aria-label="Dashboard pages"><div class="rt">Dashboard · most opened first</div><div id="rlist"></div></nav>
+<div id="col">
+<header><button class="ib" id="rToggle" title="Dashboard pages">☰</button><div class="who"><b id="bn">Sunny</b><small id="st">here with you</small></div>
+<button class="ib wd" id="bMore" title="Menu" aria-label="Menu" aria-haspopup="true" aria-expanded="false"><b>▼</b><span class="bdg" id="tdot" hidden></span></button>
+<div id="moreMenu" role="menu">
+<div class="ms">Open</div>
+<button class="mi" id="bNow" role="menuitem"><i>🔍</i>Now</button>
+<button class="mi" id="bRev" role="menuitem"><i>🗂️</i>Review<span class="bdg" id="bdgRev" hidden></span></button>
+<button class="mi" id="bCal" role="menuitem"><i>🗓️</i>Calendar</button>
+<button class="mi" id="bDue" role="menuitem"><i>📅</i>Deadlines</button>
+<button class="mi" id="bPlan" role="menuitem"><i>📊</i>Plan</button>
+<button class="mi" id="bGoals" role="menuitem"><i>🎯</i>Goals</button>
+<button class="mi" id="bAi" role="menuitem"><i>🌐</i>AI &amp; videos</button>
+<button class="mi" id="bAdd" role="menuitem"><i>➕</i>Add goal</button>
+<div class="ms">Settings</div>
+<button class="mi" id="bRefresh" role="menuitem"><i>🔄</i>Refresh</button>
+<button class="mi" id="bVoice" role="menuitem"><i>🔊</i>Voice</button>
+<button class="mi" id="bTheme" role="menuitem"><i>🌓</i>Light / dark</button>
+<button class="mi" id="bSet" role="menuitem"><i>⚙️</i>Settings</button></div>
+</header>
+<div class="fold open" id="robotBox"><div class="fi"><div id="stage"><canvas id="rb"></canvas><button class="gchip" id="gChip">🎯 Set my goal</button><div id="stats"></div><button id="tzBtn" aria-haspopup="true" aria-expanded="false" title="Tease your Buddy">😜 Tease Buddy <b>▾</b></button><button id="bBrowser" title="Open the Rize Browser: AI sites and videos in their own window (every site is checked Productive / Unproductive)">🌐 Browser</button><div id="guard" hidden></div><button id="stFold" title="Fold the robot away" aria-label="Fold the robot away">⌃</button></div></div></div>
+<div class="fold" id="miniBox"><div class="fi"><button id="mini" title="Show the robot"><span class="mrb">🤖</span><span class="mgl"><span id="mgoal">🎯 Set my goal</span><small id="mmood">here with you</small></span><span id="mguard" hidden></span><span id="mstats"></span><span class="mc">⌄</span></button></div></div>
+<div id="tok" class="tok"></div>
+<div id="tmr"></div>
+<div class="fold" id="panelBox"><div class="fi"><div id="panel"></div></div></div>
+<div id="msgs"></div>
+<div class="chips" id="chips"></div>
+<footer><div class="comp"><button class="mic" id="mic" title="Talk to me">🎙️</button><textarea id="in" rows="1" placeholder="Type or tap the mic…"></textarea><button class="send" id="send">➤</button></div>
+<div class="note">Buddy is an AI companion 💛 For anything heavy, talk to someone you trust too.</div></footer>
+</div>
+<div id="tzMenu" role="menu" hidden></div>
+<div id="sheet"></div>
+<script src="robot.js"></script><script src="companion.js"></script></body></html>
